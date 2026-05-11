@@ -145,11 +145,14 @@ a{
 
 
 
+
+
 /* HERO SECTION*/
 .hero{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    position:relative;
     gap:50px;
     min-height:85vh;
 }
@@ -174,6 +177,34 @@ a{
     display:flex;
     gap:20px;
     flex-wrap:wrap;
+}
+.hero::before{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    background:#38bdf8;
+    filter:blur(180px);
+    opacity:0.15;
+    top:-100px;
+    right:0;
+    z-index:-1;
+}
+.hero-image img{
+    width:100%;
+    max-width:550px;
+    animation:float 4s ease-in-out infinite;
+}
+@keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
 }
 
 
@@ -508,3 +539,8 @@ table th{
         text-align:center;
     }
 }
+
+
+
+
+

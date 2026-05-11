@@ -37,7 +37,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <li><a href="index.php">Home</a></li>
 
-            <?php if(isset($_SESSION['user'])): ?>
+            <?php if(isset($_SESSION['user_id'])): ?>
 
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="planner.php">Planner</a></li>
