@@ -3,68 +3,81 @@
 include "includes/auth.php";
 include "includes/db.php";
 include "api/openai.php";
+include "includes/Parsedown.php";
+
+$parsedown = new Parsedown();
+
+$user_id = $_SESSION['user_id'];
 
 $message = "";
 $ai_response = "";
+$trip_id = 0;
 
-if(isset($_POST['save_trip'])){
+/* SAVE TRIP */
 
-    $user_id = $_SESSION['user_id'];
+if(isset($_POST['save_trip_plan'])){
 
-    $title = trim($_POST['title']);
-    $budget = trim($_POST['budget']);
-    $days = trim($_POST['days']);
-    $destinations = trim($_POST['destinations']);
-    $travel_style = trim($_POST['travel_style']);
+    $trip_id = intval($_POST['trip_id']);
 
-    $ai_response = generateTripPlan(
-        $budget,
-        $days,
-        $destinations,
-        $travel_style
+    $checkQuery = mysqli_prepare(
+
+        $conn,
+
+        "SELECT id
+        FROM saved_trips
+        WHERE user_id=?
+        AND trip_id=?"
     );
 
-    if(
-        empty($title) ||
-        empty($budget) ||
-        empty($days) ||
-        empty($destinations) ||
-        empty($travel_style)
-    ){
+    mysqli_stmt_bind_param(
+
+        $checkQuery,
+
+        "ii",
+
+        $user_id,
+        $trip_id
+    );
+
+    mysqli_stmt_execute($checkQuery);
+
+    $checkResult =
+    mysqli_stmt_get_result($checkQuery);
+
+    if(mysqli_num_rows($checkResult) > 0){
 
         $message = "
         <div class='alert alert-error'>
-            All fields are required
+            Trip already saved ❤️
         </div>";
 
     }else{
 
-        $query = mysqli_prepare(
+        $saveQuery = mysqli_prepare(
+
             $conn,
 
-            "INSERT INTO trips
-            (user_id,title,budget,days,destinations,travel_style,ai_response)
+            "INSERT INTO saved_trips
+            (user_id,trip_id)
 
-            VALUES(?,?,?,?,?,?,?)"
+            VALUES(?,?)"
         );
 
         mysqli_stmt_bind_param(
-            $query,
-            "isdisss",
+
+            $saveQuery,
+
+            "ii",
+
             $user_id,
-            $title,
-            $budget,
-            $days,
-            $destinations,
-            $travel_style,
-            $ai_response
+            $trip_id
         );
 
-        if(mysqli_stmt_execute($query)){
+        if(mysqli_stmt_execute($saveQuery)){
 
             $message = "
             <div class='alert alert-success'>
-                Trip Saved Successfully 🚀
+                Trip saved successfully ❤️
             </div>";
 
         }else{
@@ -77,69 +90,227 @@ if(isset($_POST['save_trip'])){
     }
 }
 
+/* GENERATE TRIP */
+
+if(isset($_POST['generate_trip'])){
+
+    $title =
+    trim($_POST['title']);
+
+    $budget =
+    trim($_POST['budget']);
+
+    $days =
+    trim($_POST['days']);
+
+    $destinations =
+    trim($_POST['destinations']);
+
+    $travel_style =
+    trim($_POST['travel_style']);
+
+    if(
+        empty($title) ||
+        empty($budget) ||
+        empty($days) ||
+        empty($destinations) ||
+        empty($travel_style)
+    ){
+
+        $message = "
+        <div class='alert alert-error'>
+            Please fill all fields
+        </div>";
+
+    }else{
+
+        /* AI RESPONSE */
+
+        $ai_response =
+        generateTripPlan(
+
+            $budget,
+            $days,
+            $destinations,
+            $travel_style
+        );
+
+        /* SAVE TO DATABASE */
+
+        $query = mysqli_prepare(
+
+            $conn,
+
+            "INSERT INTO trips
+
+            (
+                user_id,
+                title,
+                budget,
+                days,
+                destinations,
+                travel_style,
+                ai_response
+            )
+
+            VALUES(?,?,?,?,?,?,?)"
+        );
+
+        mysqli_stmt_bind_param(
+
+            $query,
+
+            "isdisss",
+
+            $user_id,
+            $title,
+            $budget,
+            $days,
+            $destinations,
+            $travel_style,
+            $ai_response
+        );
+
+        if(mysqli_stmt_execute($query)){
+
+            $trip_id =
+            mysqli_insert_id($conn);
+
+            $message = "
+            <div class='alert alert-success'>
+                AI Trip Generated Successfully 🚀
+            </div>";
+
+        }else{
+
+            $message = "
+            <div class='alert alert-error'>
+                Failed to generate trip
+            </div>";
+        }
+
+        /* BUDGET ANALYTICS */
+
+        $hotel_cost =
+        $budget * 0.4;
+
+        $food_cost =
+        $budget * 0.2;
+
+        $transport_cost =
+        $budget * 0.15;
+
+        $activities_cost =
+        $budget * 0.15;
+
+        $remaining =
+        $budget -
+        (
+            $hotel_cost +
+            $food_cost +
+            $transport_cost +
+            $activities_cost
+        );
+    }
+}
+
 include "includes/header.php";
 ?>
 
+<link rel="stylesheet" href="assets/css/ai-planner.css">
+
 <h1 style="margin-bottom:15px;">
-    🤖 AI Trip Planner
+    🧳 AI Trip Planner
 </h1>
 
-<p style="color:#94a3b8; margin-bottom:40px;">
-    Create smart travel plans powered by AI.
+<p style="
+color:#94a3b8;
+margin-bottom:40px;
+">
+
+    Create smart AI-powered
+    Sri Lanka travel plans.
+
 </p>
 
 <?php echo $message; ?>
 
-<div class="form-container" style="max-width:700px;">
+<!-- FORM -->
+
+<div class="form-container">
 
     <form method="POST">
 
         <div class="input-group">
+
             <label>Trip Title</label>
 
             <input
             type="text"
             name="title"
-            placeholder="Example: Ella Adventure"
+
+            placeholder="Summer Vacation"
+
             required>
+
         </div>
 
         <div class="input-group">
+
             <label>Budget (LKR)</label>
 
             <input
             type="number"
             name="budget"
-            placeholder="Enter your budget"
+
+            placeholder="50000"
+
             required>
+
         </div>
 
         <div class="input-group">
-            <label>Travel Days</label>
+
+            <label>Number of Days</label>
 
             <input
             type="number"
             name="days"
-            placeholder="Number of days"
+
+            placeholder="5"
+
             required>
+
         </div>
 
         <div class="input-group">
+
             <label>Destinations</label>
 
-            <textarea
+            <input
+            type="text"
             name="destinations"
-            placeholder="Ella, Kandy, Sigiriya..."
-            required></textarea>
+
+            placeholder="Ella, Kandy, Mirissa"
+
+            required>
+
         </div>
 
         <div class="input-group">
+
             <label>Travel Style</label>
 
-            <select name="travel_style" required>
+            <select
+            name="travel_style"
+            required>
 
                 <option value="">
-                    Select travel style
+                    Select Style
+                </option>
+
+                <option value="Adventure">
+                    Adventure
                 </option>
 
                 <option value="Luxury">
@@ -150,28 +321,21 @@ include "includes/header.php";
                     Budget
                 </option>
 
-                <option value="Adventure">
-                    Adventure
-                </option>
-
                 <option value="Family">
                     Family
                 </option>
 
-                <option value="Solo">
-                    Solo
-                </option>
-
             </select>
+
         </div>
 
         <button
         type="submit"
-        name="save_trip"
+        name="generate_trip"
         class="btn btn-primary"
         style="width:100%;">
 
-            Save Trip
+            Generate AI Trip
 
         </button>
 
@@ -179,26 +343,214 @@ include "includes/header.php";
 
 </div>
 
+<!-- AI RESPONSE -->
+
 <?php if(!empty($ai_response)): ?>
 
 <div class="card"
 style="margin-top:40px;">
 
-    <h2 style="margin-bottom:20px;">
-        🤖 AI Generated Travel Plan
+    <h2 style="margin-bottom:25px;">
+        🤖 AI Travel Plan
     </h2>
 
-    <div style="
-    white-space:pre-wrap;
-    line-height:1.8;
-    color:#cbd5e1;
+    <div class="ai-response">
+
+<?php
+echo $parsedown->text(
+    $ai_response
+);
+?>
+
+</div>
+
+</div>
+
+<!-- SAVE BUTTON -->
+
+<form method="POST"
+style="margin-top:20px;">
+
+    <input
+    type="hidden"
+    name="trip_id"
+    value="<?php echo $trip_id; ?>">
+
+    <button
+    type="submit"
+    name="save_trip_plan"
+    class="btn btn-primary">
+
+        ❤️ Save This Trip
+
+    </button>
+
+</form>
+
+<!-- BUDGET ANALYTICS -->
+
+<div class="card"
+style="margin-top:30px;">
+
+    <h2 style="margin-bottom:30px;">
+        📊 Budget Analytics
+    </h2>
+
+    <!-- HOTEL -->
+
+    <div class="budget-item">
+
+        <div class="budget-top">
+
+            <span>🏨 Hotels</span>
+
+            <span>
+                LKR
+                <?php
+                echo number_format(
+                    $hotel_cost
+                );
+                ?>
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+            class="progress-fill"
+            style="width:40%;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOD -->
+
+    <div class="budget-item">
+
+        <div class="budget-top">
+
+            <span>🍛 Food</span>
+
+            <span>
+                LKR
+                <?php
+                echo number_format(
+                    $food_cost
+                );
+                ?>
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+            class="progress-fill"
+            style="width:20%;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TRANSPORT -->
+
+    <div class="budget-item">
+
+        <div class="budget-top">
+
+            <span>🚆 Transport</span>
+
+            <span>
+                LKR
+                <?php
+                echo number_format(
+                    $transport_cost
+                );
+                ?>
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+            class="progress-fill"
+            style="width:15%;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIVITIES -->
+
+    <div class="budget-item">
+
+        <div class="budget-top">
+
+            <span>🎯 Activities</span>
+
+            <span>
+                LKR
+                <?php
+                echo number_format(
+                    $activities_cost
+                );
+                ?>
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+            class="progress-fill"
+            style="width:15%;">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- REMAINING -->
+
+    <div class="card"
+    style="
+    margin-top:30px;
+    text-align:center;
     ">
 
-        <?php echo htmlspecialchars($ai_response); ?>
+        <h3>
+            💰 Remaining Budget
+        </h3>
+
+        <h1 style="
+        margin-top:15px;
+        color:#22c55e;
+        font-size:42px;
+        ">
+
+            LKR
+            <?php
+            echo number_format(
+                $remaining
+            );
+            ?>
+
+        </h1>
 
     </div>
 
 </div>
 
 <?php endif; ?>
+
 <?php include "includes/footer.php"; ?>

@@ -1,7 +1,11 @@
 <?php
 
 define(
-    "OPENAI_API_KEY",
-    "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"
+    "GEMINI_API_KEY",
+    "AIzaSyAbZKBOleWMbPPP8tgGkWTr8KIj6Re1Pvs"
+);
 
+define(
+    "WEATHER_API_KEY",
+    "ec5807e473c843dc96d15e5fceada6ee"
 );

@@ -11,45 +11,53 @@ function generateTripPlan(
 
     $prompt = "
 
-    Create a professional Sri Lanka travel plan.
+Create a professional Sri Lanka travel plan.
 
-    Budget: $budget LKR
-    Days: $days
-    Destinations: $destinations
-    Travel Style: $style
+Budget: $budget LKR
+Days: $days
+Destinations: $destinations
+Travel Style: $style
 
-    Include:
+Include:
+- day by day itinerary
+- hotels
+- food recommendations
+- transport guide
+- weather tips
+- estimated costs
 
-    - Day-by-day itinerary
-    - Hotel suggestions
-    - Food recommendations
-    - Transportation tips
-    - Estimated expenses
-    - Weather/travel advice
-
-    ";
+";
 
     $data = [
 
-        "model" => "gpt-4.1-mini",
-
-        "messages" => [
+        "contents" => [
 
             [
-                "role" => "user",
-                "content" => $prompt
+                "parts" => [
+
+                    [
+                        "text" => $prompt
+                    ]
+                ]
             ]
         ],
 
-        "temperature" => 0.7
+        "generationConfig" => [
+
+            "temperature" => 0.8,
+            "maxOutputTokens" => 2048
+        ]
     ];
+
+    $api_url =
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key="
+    . GEMINI_API_KEY;
 
     $ch = curl_init();
 
     curl_setopt_array($ch,[
 
-        CURLOPT_URL =>
-        "https://api.openai.com/v1/chat/completions",
+        CURLOPT_URL => $api_url,
 
         CURLOPT_RETURNTRANSFER => true,
 
@@ -60,10 +68,7 @@ function generateTripPlan(
 
         CURLOPT_HTTPHEADER => [
 
-            "Content-Type: application/json",
-
-            "Authorization: Bearer "
-            . OPENAI_API_KEY
+            "Content-Type: application/json"
         ]
     ]);
 
@@ -73,13 +78,13 @@ function generateTripPlan(
 
     $result = json_decode($response,true);
 
-    if(isset($result['choices'][0]['message']['content'])){
+    if(isset($result['candidates'][0]['content']['parts'][0]['text'])){
 
-    return $result['choices'][0]['message']['content'];
+        return
+        $result['candidates'][0]['content']['parts'][0]['text'];
 
-}else{
+    }else{
 
-    return "ERROR: " .
-    json_encode($result);
-}
+        return json_encode($result, JSON_PRETTY_PRINT);
+    }
 }
