@@ -5,49 +5,94 @@ include "includes/header.php";
 
 ?>
 
-<h1 style="margin-bottom:15px;">
-    🤖 AI Travel Assistant
-</h1>
+<div class="chat-page">
 
-<p style="
-color:#94a3b8;
-margin-bottom:30px;
-">
+    <!-- HEADER -->
 
-    Ask travel questions about Sri Lanka.
+    <div class="chat-header">
 
-</p>
+        <div>
 
-<div class="chat-container">
+            <h1>
+                🤖 AI Travel Assistant
+            </h1>
 
-    <div
-    id="chat-box"
-    class="chat-box">
+            <p>
+                Ask anything about Sri Lanka travel.
+            </p>
 
-        <div class="bot-message">
+        </div>
 
-            👋 Hello! I am LankaGoAI Assistant.
-            Ask me about places, travel tips,
-            hotels, food, or weather.
+        <div class="online-status">
+
+            <span class="dot"></span>
+
+            AI Online
 
         </div>
 
     </div>
 
-    <div class="chat-input-area">
+    <!-- CHAT CONTAINER -->
 
-        <input
-        type="text"
+    <div class="chat-container">
 
-        id="user-input"
+        <!-- CHAT BOX -->
 
-        placeholder="Ask something...">
+        <div
+        id="chat-box"
+        class="chat-box">
 
-        <button onclick="sendMessage()">
+            <!-- AI MESSAGE -->
 
-            Send
+            <div class="message ai">
 
-        </button>
+                <div class="bubble">
+
+                    👋 Hello! I am LankaGoAI Assistant.<br><br>
+
+                    Ask me about:
+                    <br>
+                    ✈️ Travel Tips
+                    <br>
+                    🏨 Hotels
+                    <br>
+                    🍛 Food
+                    <br>
+                    🌦️ Weather
+                    <br>
+                    📍 Tourist Places
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- INPUT -->
+
+        <div class="chat-input">
+
+            <input
+            type="text"
+
+            id="user-input"
+
+            placeholder="Ask something about Sri Lanka travel..."
+
+            onkeypress="
+            if(event.key==='Enter'){
+                sendMessage();
+            }
+            ">
+
+            <button onclick="sendMessage()">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
 
     </div>
 

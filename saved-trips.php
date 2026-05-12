@@ -90,7 +90,6 @@ mysqli_stmt_get_result($query);
 include "includes/header.php";
 ?>
 
-<link rel="stylesheet" href="assets/css/ai-planner.css">
 
 <h1 style="margin-bottom:15px;">
     ❤️ Saved Trips

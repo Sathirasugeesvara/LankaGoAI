@@ -1,28 +1,47 @@
-<?php include "includes/header.php"; ?>
+<?php
+
+include "includes/header.php";
+
+?>
+
+<!-- HERO SECTION -->
 
 <section class="hero">
 
-    <div class="hero-text">
+    <div class="hero-content">
 
         <h1>
-            Explore Sri Lanka with
-            <span>AI Powered Travel Planning</span>
+
+            Explore Sri Lanka
+            with AI-Powered
+            Travel Planning 🌍
+
         </h1>
 
         <p>
-            LankaGoAI helps travelers generate smart travel itineraries,
-            optimize budgets, receive weather alerts, and explore Sri Lanka
-            with the power of Artificial Intelligence.
+
+            Smart trip planning,
+            budget optimization,
+            weather insights,
+            and AI travel assistance
+            — all in one platform.
+
         </p>
 
         <div class="hero-buttons">
 
-            <a href="register.php" class="btn btn-primary">
-                Get Started
+            <a href="planner.php"
+            class="btn btn-primary">
+
+                Start Planning
+
             </a>
 
-            <a href="planner.php" class="btn">
-                Plan Your Trip
+            <a href="register.php"
+            class="btn btn-secondary">
+
+                Create Account
+
             </a>
 
         </div>
@@ -31,8 +50,9 @@
 
     <div class="hero-image">
 
-        <img src="assets/images/travel.png" alt="Travel"
-        style="width:100%; max-width:500px;">
+        <img
+        src="assets/images/travel.png"
+        alt="Travel Illustration">
 
     </div>
 
@@ -40,33 +60,105 @@
 
 <!-- FEATURES -->
 
-<section class="dashboard-grid">
+<section class="features">
 
-    <div class="dashboard-card">
-        <h3>🤖 AI Trip Planner</h3>
+    <h2>
+        Why Choose LankaGoAI?
+    </h2>
 
-        <p>
-            Generate intelligent travel plans based on budget,
-            destinations, and travel duration.
-        </p>
+    <div class="dashboard-grid">
+
+        <div class="card">
+
+            <h3>🤖 AI Planner</h3>
+
+            <p>
+
+                Generate smart travel
+                itineraries instantly.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>📊 Budget Analytics</h3>
+
+            <p>
+
+                Optimize expenses with
+                intelligent insights.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>🌦️ Weather Forecast</h3>
+
+            <p>
+
+                Real-time weather updates
+                for destinations.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>❤️ Saved Trips</h3>
+
+            <p>
+
+                Save and revisit your
+                favorite travel plans.
+
+            </p>
+
+        </div>
+
     </div>
 
-    <div class="dashboard-card">
-        <h3>🌦️ Weather Warnings</h3>
+</section>
 
-        <p>
-            Receive real-time weather updates and travel alerts
-            before your journey.
+<!-- CTA -->
+
+<section class="cta-section">
+
+    <div class="card"
+    style="
+    text-align:center;
+    padding:60px 30px;
+    ">
+
+        <h1 style="
+        margin-bottom:20px;
+        ">
+
+            Ready to Explore Sri Lanka?
+
+        </h1>
+
+        <p style="
+        margin-bottom:30px;
+        color:#94a3b8;
+        ">
+
+            Start building your smart
+            AI-powered travel experience today.
+
         </p>
-    </div>
 
-    <div class="dashboard-card">
-        <h3>💰 Smart Budget Optimizer</h3>
+        <a href="planner.php"
+        class="btn btn-primary">
 
-        <p>
-            Optimize hotels, transport, and activities according
-            to your travel budget.
-        </p>
+            Plan My Trip
+
+        </a>
+
     </div>
 
 </section>

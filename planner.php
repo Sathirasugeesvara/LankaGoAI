@@ -217,7 +217,6 @@ if(isset($_POST['generate_trip'])){
 include "includes/header.php";
 ?>
 
-<link rel="stylesheet" href="assets/css/ai-planner.css">
 
 <h1 style="margin-bottom:15px;">
     🧳 AI Trip Planner
@@ -363,6 +362,26 @@ echo $parsedown->text(
 ?>
 
 </div>
+
+</div>
+
+<div class="card"
+style="margin-top:30px;">
+
+    <h2 style="margin-bottom:20px;">
+        📍 Trip Destinations Map
+    </h2>
+
+    <div
+    id="map"
+
+    style="
+    width:100%;
+    height:450px;
+    border-radius:20px;
+    ">
+
+    </div>
 
 </div>
 
@@ -552,5 +571,82 @@ style="margin-top:30px;">
 </div>
 
 <?php endif; ?>
+
+<script>
+
+function initMap(){
+
+    const map = new google.maps.Map(
+
+        document.getElementById("map"),
+
+        {
+
+            zoom:7,
+
+            center:{
+                lat:7.8731,
+                lng:80.7718
+            }
+        }
+    );
+
+    /* DESTINATIONS */
+
+    const locations = [
+
+        {
+            name:"Colombo",
+            lat:6.9271,
+            lng:79.8612
+        },
+
+        {
+            name:"Kandy",
+            lat:7.2906,
+            lng:80.6337
+        },
+
+        {
+            name:"Ella",
+            lat:6.8667,
+            lng:81.0466
+        },
+
+        {
+            name:"Mirissa",
+            lat:5.9483,
+            lng:80.4716
+        }
+    ];
+
+    locations.forEach(location=>{
+
+        new google.maps.Marker({
+
+            position:{
+                lat:location.lat,
+                lng:location.lng
+            },
+
+            map:map,
+
+            title:location.name
+        });
+    });
+}
+
+</script>
+
+<script
+
+src="
+https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap
+"
+
+async
+defer>
+
+</script>
 
 <?php include "includes/footer.php"; ?>

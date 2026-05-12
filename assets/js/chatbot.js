@@ -1,116 +1,267 @@
-const chatBox =
-document.getElementById("chat-box");
-
 function sendMessage(){
 
     const input =
-    document.getElementById("user-input");
+    document.getElementById(
+        "user-input"
+    );
 
-    const message =
+    const chatBox =
+    document.getElementById(
+        "chat-box"
+    );
+
+    const userText =
     input.value.trim();
 
-    if(message === "") return;
+    if(userText === "") return;
 
-    // USER MESSAGE
+    /* USER MESSAGE */
 
-    const userDiv =
-    document.createElement("div");
+    chatBox.innerHTML += `
 
-    userDiv.className =
-    "user-message";
+    <div class="message user">
 
-    userDiv.innerText = message;
+        <div class="bubble">
 
-    chatBox.appendChild(userDiv);
+            ${userText}
 
-    // BOT RESPONSE
+        </div>
 
-    const botDiv =
-    document.createElement("div");
+    </div>
 
-    botDiv.className =
-    "bot-message";
+    `;
 
-    botDiv.innerText =
-    getBotReply(message);
+    /* CLEAR INPUT */
+
+    input.value = "";
+
+    /* AUTO SCROLL */
+
+    chatBox.scrollTop =
+    chatBox.scrollHeight;
+
+    /* TYPING */
+
+    chatBox.innerHTML += `
+
+    <div
+    class="message ai"
+    id="typing">
+
+        <div class="bubble">
+
+            Typing...
+
+        </div>
+
+    </div>
+
+    `;
+
+    chatBox.scrollTop =
+    chatBox.scrollHeight;
+
+    /* AI REPLY */
 
     setTimeout(()=>{
 
-        chatBox.appendChild(botDiv);
+        document
+        .getElementById("typing")
+        .remove();
+
+        let reply =
+        generateReply(userText);
+
+        chatBox.innerHTML += `
+
+        <div class="message ai">
+
+            <div class="bubble">
+
+                ${reply}
+
+            </div>
+
+        </div>
+
+        `;
 
         chatBox.scrollTop =
         chatBox.scrollHeight;
 
-    },700);
-
-    input.value = "";
-
-    chatBox.scrollTop =
-    chatBox.scrollHeight;
+    },1200);
 }
 
-function getBotReply(message){
+/* SMART REPLIES */
 
-    message = message.toLowerCase();
+function generateReply(message){
 
-    if(message.includes("ella")){
+    let text =
+    message.toLowerCase();
+
+    /* ELLA */
+
+    if(text.includes("ella")){
 
         return `
-Best places in Ella:
+        🌿 Ella is one of the best
+        mountain destinations in
+        Sri Lanka.<br><br>
 
-• Nine Arches Bridge
-• Little Adam's Peak
-• Ravana Falls
-• Ella Rock
-• Train ride experience
+        ⭐ Nine Arches Bridge<br>
+        ⭐ Little Adam’s Peak<br>
+        ⭐ Ravana Falls<br>
+        ⭐ Train Ride Experience
         `;
     }
 
-    if(message.includes("kandy")){
+    /* KANDY */
+
+    else if(text.includes("kandy")){
 
         return `
-Top attractions in Kandy:
+        🏯 Kandy is famous for:
 
-• Temple of Tooth
-• Kandy Lake
-• Botanical Garden
-• Cultural Dance Show
+        <br><br>
+
+        ⭐ Temple of the Tooth<br>
+        ⭐ Kandy Lake<br>
+        ⭐ Botanical Garden<br>
+        ⭐ Cultural Dance Shows
         `;
     }
 
-    if(message.includes("food")){
+    /* BEACH */
+
+    else if(
+        text.includes("beach")
+    ){
 
         return `
-Must-try Sri Lankan foods:
+        🏖️ Best beaches in
+        Sri Lanka:<br><br>
 
-• Kottu
-• Rice & Curry
-• Hoppers
-• String Hoppers
-• Seafood
+        ⭐ Mirissa<br>
+        ⭐ Unawatuna<br>
+        ⭐ Bentota<br>
+        ⭐ Arugam Bay
         `;
     }
 
-    if(message.includes("beach")){
+    /* FOOD */
+
+    else if(
+        text.includes("food")
+    ){
 
         return `
-Best beaches in Sri Lanka:
+        🍛 Must-try Sri Lankan food:
 
-• Mirissa
-• Unawatuna
-• Arugam Bay
-• Bentota
+        <br><br>
+
+        ⭐ Kottu<br>
+        ⭐ Hoppers<br>
+        ⭐ Rice & Curry<br>
+        ⭐ String Hoppers
         `;
     }
 
-    return `
-I can help with:
+    /* WEATHER */
 
-• Destinations
-• Hotels
-• Food
-• Weather
-• Travel tips
-• Budget planning
-    `;
+    else if(
+        text.includes("weather")
+    ){
+
+        return `
+        🌦️ Sri Lanka weather
+        is usually tropical and warm.
+
+        <br><br>
+
+        ☀️ Coastal areas are hot.
+        🌿 Hill country is cooler.
+        ☔ Carry umbrellas during
+        rainy seasons.
+        `;
+    }
+
+    /* HOTEL */
+
+    else if(
+        text.includes("hotel")
+    ){
+
+        return `
+        🏨 Popular hotel areas:
+
+        <br><br>
+
+        ⭐ Colombo 03<br>
+        ⭐ Kandy City<br>
+        ⭐ Ella Town<br>
+        ⭐ Mirissa Beach
+        `;
+    }
+
+    /* TRANSPORT */
+
+    else if(
+        text.includes("transport")
+    ){
+
+        return `
+        🚆 Sri Lanka transport tips:
+
+        <br><br>
+
+        ⭐ Use PickMe app<br>
+        ⭐ Train rides are scenic<br>
+        ⭐ Tuk-Tuks for short trips<br>
+        ⭐ Buses are budget friendly
+        `;
+    }
+
+    /* DEFAULT */
+
+    else{
+
+        const replies = [
+
+            `
+            ✈️ I can help you with:
+            <br><br>
+
+            ⭐ Places to visit<br>
+            ⭐ Hotels<br>
+            ⭐ Weather<br>
+            ⭐ Budget travel<br>
+            ⭐ Food recommendations
+            `,
+
+            `
+            🌍 Sri Lanka has amazing
+            destinations like Ella,
+            Kandy, Sigiriya,
+            Mirissa, and Nuwara Eliya.
+            `,
+
+            `
+            🤖 Try asking me about:
+            <br><br>
+
+            ⭐ Beaches<br>
+            ⭐ Mountains<br>
+            ⭐ Travel costs<br>
+            ⭐ Local food<br>
+            ⭐ Tourist attractions
+            `
+        ];
+
+        return replies[
+            Math.floor(
+                Math.random()
+                * replies.length
+            )
+        ];
+    }
 }

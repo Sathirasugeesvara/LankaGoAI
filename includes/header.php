@@ -24,6 +24,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <body>
 
+<div id="loader">
+    <div class="spinner"></div>
+</div>
+
 <header class="navbar">
 
     <div class="logo">
