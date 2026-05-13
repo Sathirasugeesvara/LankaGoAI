@@ -329,7 +329,7 @@ margin-bottom:40px;
         </div>
 
         <button
-        type="submit"
+        type="submit" id="generateBtn"
         name="generate_trip"
         class="btn btn-primary"
         style="width:100%;">
@@ -573,79 +573,156 @@ style="margin-top:30px;">
 <?php endif; ?>
 
 <script>
+const locations = [
 
-function initMap(){
+    {
+        name:"Colombo",
+        coords:[6.9271,79.8612]
+    },
 
-    const map = new google.maps.Map(
+    {
+        name:"Kandy",
+        coords:[7.2906,80.6337]
+    },
 
-        document.getElementById("map"),
+    {
+        name:"Ella",
+        coords:[6.8667,81.0466]
+    },
 
-        {
+    {
+        name:"Mirissa",
+        coords:[5.9483,80.4716]
+    },
 
-            zoom:7,
+    {
+        name:"Sigiriya",
+        coords:[7.9570,80.7603]
+    },
 
-            center:{
-                lat:7.8731,
-                lng:80.7718
-            }
-        }
+    {
+        name:"Nuwara Eliya",
+        coords:[6.9497,80.7891]
+    },
+
+    {
+        name:"Galle",
+        coords:[6.0329,80.2168]
+    },
+
+    {
+        name:"Bentota",
+        coords:[6.4254,79.9959]
+    },
+
+    {
+        name:"Arugam Bay",
+        coords:[6.8404,81.8368]
+    },
+
+    {
+        name:"Yala National Park",
+        coords:[6.3725,81.5185]
+    },
+
+    {
+        name:"Trincomalee",
+        coords:[8.5874,81.2152]
+    },
+
+    {
+        name:"Jaffna",
+        coords:[9.6615,80.0255]
+    },
+
+    {
+        name:"Anuradhapura",
+        coords:[8.3114,80.4037]
+    },
+
+    {
+        name:"Polonnaruwa",
+        coords:[7.9403,81.0188]
+    },
+
+    {
+        name:"Haputale",
+        coords:[6.7650,80.9510]
+    },
+
+    {
+        name:"Badulla",
+        coords:[6.9934,81.0550]
+    },
+
+    {
+        name:"Dambulla",
+        coords:[7.8731,80.6511]
+    },
+
+    {
+        name:"Pasikuda",
+        coords:[7.9290,81.5610]
+    },
+
+    {
+        name:"Hikkaduwa",
+        coords:[6.1408,80.1010]
+    },
+
+    {
+        name:"Unawatuna",
+        coords:[6.0108,80.2499]
+    }
+
+];
+</script>
+
+<script>
+
+const plannerForm =
+document.querySelector("form");
+
+const generateBtn =
+document.getElementById("generateBtn");
+
+plannerForm.addEventListener(
+"submit",
+function(){
+
+    generateBtn.classList.add(
+        "loading"
     );
-
-    /* DESTINATIONS */
-
-    const locations = [
-
-        {
-            name:"Colombo",
-            lat:6.9271,
-            lng:79.8612
-        },
-
-        {
-            name:"Kandy",
-            lat:7.2906,
-            lng:80.6337
-        },
-
-        {
-            name:"Ella",
-            lat:6.8667,
-            lng:81.0466
-        },
-
-        {
-            name:"Mirissa",
-            lat:5.9483,
-            lng:80.4716
-        }
-    ];
-
-    locations.forEach(location=>{
-
-        new google.maps.Marker({
-
-            position:{
-                lat:location.lat,
-                lng:location.lng
-            },
-
-            map:map,
-
-            title:location.name
-        });
-    });
-}
+});
 
 </script>
 
-<script
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-src="
-https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap
-"
+<script>
 
-async
-defer>
+const map = L.map('map').setView(
+    [7.8731,80.7718],
+    7
+);
+
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        attribution:
+        '&copy; OpenStreetMap contributors'
+    }
+).addTo(map);
+
+locations.forEach(location => {
+
+    L.marker(location.coords)
+    .addTo(map)
+    .bindPopup(
+        `<b>${location.name}</b>`
+    );
+
+});
 
 </script>
 

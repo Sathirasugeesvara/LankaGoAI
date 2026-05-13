@@ -942,3 +942,120 @@ table th{
         transform:rotate(360deg);
     }
 }
+
+
+
+/* =========================
+   DARK SELECT DROPDOWN
+========================= */
+
+.input-group select{
+
+    width:100%;
+
+    padding:14px;
+
+    background:#0f172a !important;
+
+    color:#ffffff !important;
+
+    border:1px solid
+    rgba(255,255,255,0.08);
+
+    border-radius:12px;
+
+    outline:none;
+
+    font-size:15px;
+
+    appearance:none;
+
+    -webkit-appearance:none;
+    -moz-appearance:none;
+}
+
+.input-group select option{
+
+    background:#0f172a;
+
+    color:#ffffff;
+}
+
+.input-group select:focus{
+
+    border-color:#38bdf8;
+}
+
+
+
+
+
+
+/* =========================
+   PREMIUM BUTTON LOADER
+========================= */
+
+.btn{
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+/* LOADING STATE */
+
+.btn.loading{
+
+    pointer-events:none;
+
+    opacity:0.9;
+
+    color:transparent !important;
+}
+
+/* SPINNER */
+
+.btn.loading::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+    height:22px;
+
+    top:50%;
+    left:50%;
+
+    margin-top:-11px;
+    margin-left:-11px;
+
+    border-radius:50%;
+
+    border:3px solid
+    rgba(255,255,255,0.25);
+
+    border-top-color:#ffffff;
+
+    animation:
+    buttonSpin .7s linear infinite;
+}
+
+/* ANIMATION */
+
+@keyframes buttonSpin{
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+
+
+
+
+#map{
+    min-height:450px;
+    z-index:1;
+}

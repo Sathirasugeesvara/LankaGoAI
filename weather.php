@@ -35,7 +35,7 @@ margin-bottom:40px;
 
 <!-- WEATHER SEARCH -->
 
-<div class="form-container">
+<div class="form-container">    
 
     <form method="POST">
 
@@ -57,6 +57,7 @@ margin-bottom:40px;
 
         <button
         type="submit"
+        id="weatherBtn"
         name="check_weather"
         class="btn btn-primary"
         style="width:100%;">
@@ -231,5 +232,24 @@ style="margin-top:30px;">
 </div>
 
 <?php endif; ?>
+
+<script>
+
+const weatherForm =
+document.querySelector("form");
+
+const weatherBtn =
+document.getElementById("weatherBtn");
+
+weatherForm.addEventListener(
+"submit",
+function(){
+
+    weatherBtn.classList.add(
+        "loading"
+    );
+});
+
+</script>
 
 <?php include "includes/footer.php"; ?>
