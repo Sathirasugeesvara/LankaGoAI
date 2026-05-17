@@ -48,12 +48,6 @@ An integrated chatbot powered by OpenAI API helps users with:
 - Budget advice
 - Trip-related questions
 
-## 🗺️ Google Maps Integration
-- Route visualization
-- Nearby attractions
-- Travel distance estimation
-- Interactive maps
-
 ## ❤️ Saved Trips
 Users can:
 - Save itineraries
@@ -75,8 +69,7 @@ Optimized for:
 - JavaScript
 - PHP
 - MySQL
-- OpenAI API
-- Google Maps API
+- Gemini API
 - OpenWeather API
 
 ---
@@ -103,9 +96,16 @@ Optimized for:
 ---
 
 # 🌐 Live Demo
-www.LankaGoAI.lk(need to change)
 
-http://localhost/LankaGoAI/index.php
+🔗 http://localhost/LankaGoAI/index.php
+
+# 🎥 Project Demo Video (LinkedIn Post)
+
+🔗 https://www.linkedin.com/posts/sathirasugeesvara_webdevelopment-fullstackdeveloper-php-ugcPost-7461449596259512320-9_ic?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAF31fFMBwrDa6TWswTnW3Rqe0gQ5J9tbF8w&utm_campaign=copy_link
+
+# 💻 GitHub Repository
+
+🔗 https://github.com/Sathirasugeesvara/LankaGoAI.git
 
 ---
 
@@ -119,4 +119,4 @@ http://localhost/LankaGoAI/index.php
 ---
 
 # 👨‍💻 Developer
-Developed by SathiraSugeesvara
+Developed by SathiXYZ

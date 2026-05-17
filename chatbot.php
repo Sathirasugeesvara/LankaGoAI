@@ -2,6 +2,9 @@
 
 include "includes/auth.php";
 include "includes/header.php";
+include "includes/Parsedown.php";
+
+$parsedown = new Parsedown();
 
 ?>
 
@@ -50,18 +53,6 @@ include "includes/header.php";
                 <div class="bubble">
 
                     👋 Hello! I am LankaGoAI Assistant.<br><br>
-
-                    Ask me about:
-                    <br>
-                    ✈️ Travel Tips
-                    <br>
-                    🏨 Hotels
-                    <br>
-                    🍛 Food
-                    <br>
-                    🌦️ Weather
-                    <br>
-                    📍 Tourist Places
 
                 </div>
 

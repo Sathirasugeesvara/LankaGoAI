@@ -11,20 +11,31 @@ function generateTripPlan(
 
     $prompt = "
 
-Create a professional Sri Lanka travel plan.
+You are a professional Sri Lanka travel planner.
 
-Budget: $budget LKR
-Days: $days
-Destinations: $destinations
-Travel Style: $style
+Create a detailed and attractive Sri Lanka travel itinerary.
 
-Include:
-- day by day itinerary
-- hotels
-- food recommendations
-- transport guide
-- weather tips
-- estimated costs
+Trip Details:
+- Budget: $budget LKR
+- Duration: $days days
+- Destinations: $destinations
+- Travel Style: $style
+
+Requirements:
+
+1. Create a detailed day-by-day itinerary.
+2. Explain activities for each day.
+3. Recommend hotels for each destination.
+4. Recommend famous Sri Lankan foods to try.
+5. Include transport methods between locations.
+6. Add weather and travel tips.
+7. Mention estimated daily expenses.
+8. Suggest best tourist attractions and hidden gems.
+9. Use friendly and professional language.
+10. Generate at least 20-30 lines of content.
+
+Format the response nicely with headings and bullet points.
+Do NOT give short summaries.
 
 ";
 
@@ -44,14 +55,14 @@ Include:
 
         "generationConfig" => [
 
-            "temperature" => 0.8,
-            "maxOutputTokens" => 2048
+            "temperature" => 0.9,
+            "maxOutputTokens" => 3000
         ]
     ];
 
     $api_url =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key="
-    . GEMINI_API_KEY;
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="
+. GEMINI_API_KEY;
 
     $ch = curl_init();
 
