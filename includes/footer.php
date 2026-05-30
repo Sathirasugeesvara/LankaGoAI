@@ -31,8 +31,13 @@
     </div>
 
     <div class="footer-bottom">
-        © <?php echo date("Y"); ?> LankaGoAI. All Rights Reserved.
-    </div>
+    © <?php echo date("Y"); ?> LankaGoAI. All Rights Reserved.
+    <br>
+    Powered by
+    <a href="https://xenoralabs.vercel.app" target="_blank" class="xenora-link">
+        Xenora Labs
+    </a>
+</div>
 
 </footer>
 
