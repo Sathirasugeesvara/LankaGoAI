@@ -34,8 +34,8 @@
     © <?php echo date("Y"); ?> LankaGoAI. All Rights Reserved.
     <br>
     Powered by
-    <a href="https://xenoralabs.vercel.app" target="_blank" class="xenora-link">
-        Xenora Labs
+    <a href="https://sathirasugeesvara.github.io" target="_blank" class="xenora-link">
+        Sathira Sugeesvara
     </a>
 </div>
 
